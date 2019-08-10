@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textViewResult;
     public static String lat = "35";
-    public static String lon = "51";
+    public static String lon = "52";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
