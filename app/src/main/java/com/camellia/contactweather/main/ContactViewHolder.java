@@ -13,11 +13,13 @@ public class ContactViewHolder extends RecyclerView.ViewHolder{
     public TextView contactName;
     public TextView contactPhoneNumber;
     public ImageView avatar;
+    public TextView txtOptionDigit;
 
     public ContactViewHolder(View itemView) {
         super(itemView);
         contactName = itemView.findViewById(R.id.displayName);
         contactPhoneNumber= itemView.findViewById(R.id.phoneNumber);
         avatar = itemView.findViewById(R.id.avatar);
+        txtOptionDigit = itemView.findViewById(R.id.txtOptionDigit);
     }
 }

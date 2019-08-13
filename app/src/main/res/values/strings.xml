@@ -6,4 +6,6 @@
     <string name="location_menu">location_menu</string>
     <string name="title_activity_maps">Map</string>
     <string name="vertical_ellipsis">&#8942;</string>
+    <string name="change_location">Change Location</string>
+    <string name="delete">Delete</string>
 </resources>

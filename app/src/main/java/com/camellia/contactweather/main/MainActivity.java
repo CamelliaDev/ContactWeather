@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.myRecyclerView);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        myAdapter = new ContactAdapter(contactList);
+        myAdapter = new ContactAdapter(contactList,this);
         recyclerView.setAdapter(myAdapter);
 
 //        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
