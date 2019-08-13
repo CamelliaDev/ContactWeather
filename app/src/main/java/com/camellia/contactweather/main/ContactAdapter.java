@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.camellia.contactweather.R;
 import com.camellia.contactweather.contacts.AllContactData;
+import com.camellia.contactweather.contacts.DataBaseHelper;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
 
     private List<AllContactData> myContactList;
     private Context mContext;
+    DataBaseHelper db;
 
     public ContactAdapter(List<AllContactData> myContactList, Context mContext) {
         this.myContactList = myContactList;
@@ -35,7 +37,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ContactViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ContactViewHolder holder, final int position) {
+
+
         holder.contactName.setText(myContactList.get(position).getDisplayName());
         holder.contactPhoneNumber.setText(myContactList.get(position).getPhoneNumber());
         holder.avatar.setImageResource(myContactList.get(position).getAvatar());
@@ -50,13 +54,22 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+                        db = new DataBaseHelper(mContext);
+
                         switch (menuItem.getItemId()) {
+
                             case R.id.menu_item_delete:
-                                Toast.makeText(mContext, "delete", Toast.LENGTH_SHORT).show();
+
+                                db.deleteContact(myContactList.get(position).getDisplayName());
+                                myContactList.remove(position);
+                                notifyDataSetChanged();
+                                Toast.makeText(mContext, "Deleted Successfully", Toast.LENGTH_SHORT).show();
                                 break;
+
                             case R.id.menu_item_changeLocation:
                                 Toast.makeText(mContext, "change location", Toast.LENGTH_SHORT).show();
                                 break;
+
                             default:
                                 break;
 

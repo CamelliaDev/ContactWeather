@@ -47,6 +47,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteContact(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + CONTACT_TABLE + " WHERE " + CONTACT_NAME + "= '" + name + "'");
+        db.close();
+    }
+
     public ArrayList<AllContactData> readContacts() {
         ArrayList<AllContactData> list = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
