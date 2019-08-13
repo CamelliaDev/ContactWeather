@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         myAdapter = new ContactAdapter(contactList);
         recyclerView.setAdapter(myAdapter);
 
-        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
+//        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
 
         floatingButton = findViewById(R.id.floatingButton);
         clickOnFloatingButton();
