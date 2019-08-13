@@ -5,4 +5,5 @@
     <string name="menu_item">menu_item</string>
     <string name="location_menu">location_menu</string>
     <string name="title_activity_maps">Map</string>
+    <string name="vertical_ellipsis">&#8942;</string>
 </resources>
