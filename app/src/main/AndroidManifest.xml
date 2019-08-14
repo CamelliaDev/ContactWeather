@@ -28,7 +28,6 @@
 
     <activity android:name=".contacts.AllContactsActivity" />
     <activity android:name=".main.MapsActivity" android:label="@string/title_activity_maps" />
-    <activity android:name=".webservice.MainActivity" android:label="@string/title_activity_maps" />
 
     </application>
 

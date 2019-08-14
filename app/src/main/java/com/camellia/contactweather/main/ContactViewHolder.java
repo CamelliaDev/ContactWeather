@@ -22,7 +22,7 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
     public TextView contactName;
     public TextView contactPhoneNumber;
     public ImageView avatar;
-    public TextView txtOptionDigit;
+    public ImageView txtOptionDigit;
     public TextView txtWeatherStatus;
 
     public ContactViewHolder(View itemView) {
