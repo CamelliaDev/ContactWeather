@@ -54,8 +54,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(this, "lat: " + target.latitude + "\nlon: " + target.longitude, Toast.LENGTH_SHORT).show();
                 Intent intent = getIntent();
                 String contactName = intent.getStringExtra("displayName"); // will return "FirstKeyValue"
-                String contactPhone = intent.getStringExtra("phone"); // will return "SecondKeyValue"
-                db.addContact(contactName, contactPhone, target.latitude, target.longitude);
+                String contactPhone = intent.getStringExtra("phone");
+                boolean isUpdate = intent.getBooleanExtra("isUpdate", false);
+
+                if (isUpdate) {
+                    db.updateContactLocation(contactPhone, target.latitude, target.longitude);
+                } else {
+                    db.addContact(contactName, contactPhone, target.latitude, target.longitude);
+                }
+
                 finish();
                 break;
         }
@@ -76,8 +83,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
         // Add a marker in Iran and move the camera
-        LatLng sydney = new LatLng(32, 53);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Iran"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng Iran = new LatLng(32, 53);
+        mMap.addMarker(new MarkerOptions().position(Iran).title("Marker in Iran"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(Iran));
     }
 }

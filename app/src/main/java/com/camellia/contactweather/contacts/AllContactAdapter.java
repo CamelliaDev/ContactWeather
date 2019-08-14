@@ -33,7 +33,7 @@ public class AllContactAdapter extends RecyclerView.Adapter<AllContactViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull AllContactViewHolder holder, int position) {
-        holder.bind(myContactList.get(position),listener, position);
+        holder.bind(myContactList.get(position), listener, position);
     }
 
     @Override

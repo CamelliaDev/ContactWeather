@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.camellia.contactweather.main.ContactData;
+
 import java.util.ArrayList;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -47,19 +49,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteContact(String name){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + CONTACT_TABLE + " WHERE " + CONTACT_NAME + "= '" + name + "'");
+    public void updateContactLocation(String phone, double latitude, double longitude) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LATITUDE, latitude);
+        contentValues.put(LONGITUDE, longitude);
+
+        db.update(CONTACT_TABLE, contentValues, CONTACT_PHONE + "=?", new String[]{phone});
         db.close();
     }
 
-    public ArrayList<AllContactData> readContacts() {
-        ArrayList<AllContactData> list = new ArrayList<>();
+    public void deleteContact(String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + CONTACT_TABLE + " WHERE " + CONTACT_PHONE + "= '" + phone + "'");
+        db.close();
+    }
+
+    public ArrayList<ContactData> readContacts() {
+        ArrayList<ContactData> list = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(CONTACT_TABLE, null, null, null, null, null, CONTACT_NAME + " ASC");
         if (cursor != null && cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
-                AllContactData contactData = new AllContactData();
+                ContactData contactData = new ContactData();
 
                 String name = cursor.getString(cursor.getColumnIndex(CONTACT_NAME));
                 String phone = cursor.getString(cursor.getColumnIndex(CONTACT_PHONE));

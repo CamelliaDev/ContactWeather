@@ -16,17 +16,19 @@ import com.camellia.contactweather.contacts.AllContactData;
 import com.camellia.contactweather.contacts.DataBaseHelper;
 
 import java.util.List;
+import java.util.Locale;
 
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
 
-    private List<AllContactData> myContactList;
+    private List<ContactData> myContactList;
     private Context mContext;
-    DataBaseHelper db;
+    private OnOptionMenuItemClickListener listener;
 
-    public ContactAdapter(List<AllContactData> myContactList, Context mContext) {
+    public ContactAdapter(List<ContactData> myContactList, Context mContext, OnOptionMenuItemClickListener listener) {
         this.myContactList = myContactList;
         this.mContext = mContext;
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,53 +39,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ContactViewHolder holder, final int position) {
-
-
-        holder.contactName.setText(myContactList.get(position).getDisplayName());
-        holder.contactPhoneNumber.setText(myContactList.get(position).getPhoneNumber());
-        holder.avatar.setImageResource(myContactList.get(position).getAvatar());
-
-        holder.txtOptionDigit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Display option menu
-
-                PopupMenu popupMenu = new PopupMenu(mContext, holder.txtOptionDigit);
-                popupMenu.inflate(R.menu.option_menu);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        db = new DataBaseHelper(mContext);
-
-                        switch (menuItem.getItemId()) {
-
-                            case R.id.menu_item_delete:
-
-                                db.deleteContact(myContactList.get(position).getDisplayName());
-                                myContactList.remove(position);
-                                notifyDataSetChanged();
-                                Toast.makeText(mContext, "Deleted Successfully", Toast.LENGTH_SHORT).show();
-                                break;
-
-                            case R.id.menu_item_changeLocation:
-                                Intent intent = new Intent(mContext, MapsActivity.class);
-                                mContext.startActivity(intent);
-                                Toast.makeText(mContext, "change location", Toast.LENGTH_SHORT).show();
-                                break;
-
-                            default:
-                                break;
-
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
-
-            }
-        });
-
+    public void onBindViewHolder(@NonNull final ContactViewHolder holder, int position) {
+        holder.bind(myContactList.get(position), listener, position);
     }
 
     @Override

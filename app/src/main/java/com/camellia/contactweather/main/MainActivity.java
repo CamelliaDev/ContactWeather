@@ -1,32 +1,39 @@
 package com.camellia.contactweather.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.camellia.contactweather.R;
-import com.camellia.contactweather.contacts.AllContactData;
 import com.camellia.contactweather.contacts.AllContactsActivity;
 import com.camellia.contactweather.contacts.DataBaseHelper;
+import com.camellia.contactweather.webservice.ApiManager;
+import com.camellia.contactweather.webservice.model.DataModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import retrofit2.Response;
+
+public class MainActivity extends AppCompatActivity implements OnOptionMenuItemClickListener{
 
     private FloatingActionButton floatingButton;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter myAdapter;
-    private List<AllContactData> contactList = new ArrayList<>();
+    private List<ContactData> contactList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.myRecyclerView);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        myAdapter = new ContactAdapter(contactList, this);
+        myAdapter = new ContactAdapter(contactList, this, this);
         recyclerView.setAdapter(myAdapter);
 
 //        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
@@ -69,10 +76,41 @@ public class MainActivity extends AppCompatActivity {
 
     public void initContactData() {
         DataBaseHelper db = new DataBaseHelper(this);
-        ArrayList<AllContactData> list = db.readContacts();
+        ArrayList<ContactData> list = db.readContacts();
         contactList.clear();
         contactList.addAll(list);
         myAdapter.notifyDataSetChanged();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (ContactData contactData : contactList) {
+                    double latitude = contactData.getLatitude();
+                    double longitude = contactData.getLongitude();
+
+                    Response<DataModel> response = null;
+                    try {
+                        response = ApiManager.getInstance().getCurrentWeather(latitude, longitude).execute();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (response != null) {
+                        DataModel dataModel = response.body();
+                        contactData.setCity(dataModel.getName());
+                        contactData.setTemperature(dataModel.main.getTemperature());
+                        contactData.setIconId(dataModel.weather.get(0).getIcon());
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                myAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }
+            }
+        }).start();
     }
 
     public void clickOnFloatingButton() {
@@ -83,6 +121,47 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onOptionMenuItemClicked(View view, final int position) {
+        //Display option menu
+
+        final Context context = this;
+        final ContactData contactData = contactList.get(position);
+        PopupMenu popupMenu = new PopupMenu(context, view);
+        popupMenu.inflate(R.menu.option_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                DataBaseHelper db = new DataBaseHelper(context);
+                switch (menuItem.getItemId()) {
+
+                    case R.id.menu_item_delete:
+                        db.deleteContact(contactData.getPhoneNumber());
+                        contactList.remove(position);
+                        myAdapter.notifyDataSetChanged();
+                        Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.menu_item_changeLocation:
+                        Intent intent = new Intent(context, MapsActivity.class);
+                        intent.putExtra("displayName", contactData.getDisplayName());
+                        intent.putExtra("phone", contactData.getPhoneNumber());
+                        intent.putExtra("isUpdate", true);
+                        context.startActivity(intent);
+
+                        Toast.makeText(context, "change location", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    default:
+                        break;
+
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
     }
 
 }

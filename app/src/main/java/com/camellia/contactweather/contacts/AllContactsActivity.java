@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.camellia.contactweather.R;
 import com.camellia.contactweather.main.MapsActivity;
 import com.camellia.contactweather.main.OnItemClickListener;
+import com.camellia.contactweather.main.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
 
-//        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
+        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
 
         db = new DataBaseHelper(this);
     }
@@ -185,6 +186,8 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("displayName", allContactList.get(position).getDisplayName());
         intent.putExtra("phone", allContactList.get(position).getPhoneNumber());
+        intent.putExtra("isUpdate", false);
+
         startActivity(intent);
         finish();
 

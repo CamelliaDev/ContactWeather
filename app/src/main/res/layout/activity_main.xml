@@ -9,7 +9,7 @@
         android:id="@+id/myToolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_green_light"/>
+        android:background="@color/colorPrimary"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/myToolBar"
@@ -29,6 +29,6 @@
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:src="@drawable/ic_person_add_black_24dp"
-        app:backgroundTint="@android:color/holo_green_light"
+        app:backgroundTint="@color/colorPrimary"
         android:id="@+id/floatingButton"/>
 </RelativeLayout>

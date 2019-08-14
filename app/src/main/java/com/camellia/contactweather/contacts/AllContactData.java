@@ -2,7 +2,11 @@ package com.camellia.contactweather.contacts;
 
 public class AllContactData {
 
+    private double latitude;
     private double longitude;
+    private String displayName;
+    private String phoneNumber;
+    private int avatar;
 
     public double getLongitude() {
         return longitude;
@@ -19,11 +23,6 @@ public class AllContactData {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-
-    private double latitude;
-    private String displayName;
-    private String phoneNumber;
-    private int avatar;
 
     public String getDisplayName() {
         return displayName;

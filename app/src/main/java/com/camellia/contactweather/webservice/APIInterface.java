@@ -10,8 +10,8 @@ public interface APIInterface {
 
     @GET("weather?")
     Call<DataModel> getCurrentWeather(
-            @Query("lat") String lat,
-            @Query("lon") String lon,
+            @Query("lat") double lat,
+            @Query("lon") double lon,
             @Query("APPID") String appId
     );
 }

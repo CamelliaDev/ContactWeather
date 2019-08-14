@@ -31,7 +31,7 @@ public class ApiManager {
         api = retrofit.create(APIInterface.class);
     }
 
-    public Call<DataModel> getCurrentWeather(String lat, String lon) {
+    public Call<DataModel> getCurrentWeather(double lat, double lon) {
         return api.getCurrentWeather(lat, lon, APP_ID);
     }
 
