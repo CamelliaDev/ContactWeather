@@ -1,11 +1,10 @@
 package com.camellia.contactweather.main;
 
 import android.content.Context;
-import android.graphics.Point;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +16,7 @@ import com.camellia.contactweather.contacts.AllContactData;
 import com.camellia.contactweather.contacts.DataBaseHelper;
 
 import java.util.List;
+
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
 
@@ -67,6 +67,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
                                 break;
 
                             case R.id.menu_item_changeLocation:
+                                Intent intent = new Intent(mContext, MapsActivity.class);
+                                mContext.startActivity(intent);
                                 Toast.makeText(mContext, "change location", Toast.LENGTH_SHORT).show();
                                 break;
 
@@ -88,5 +90,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
     public int getItemCount() {
         return myContactList.size();
     }
+
 
 }
