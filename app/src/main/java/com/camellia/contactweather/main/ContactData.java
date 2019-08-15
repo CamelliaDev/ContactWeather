@@ -1,5 +1,7 @@
 package com.camellia.contactweather.main;
 
+import com.camellia.contactweather.webservice.model.DataModel;
+
 public class ContactData {
 
     private double latitude;
@@ -8,9 +10,7 @@ public class ContactData {
     private String phoneNumber;
     private int avatar;
 
-    private String city;
-    private float temperature;
-    private String iconId;
+    private DataModel dataModel;
 
     public double getLongitude() {
         return longitude;
@@ -52,27 +52,11 @@ public class ContactData {
         this.avatar = avatar;
     }
 
-    public String getCity() {
-        return city;
+    public DataModel getDataModel() {
+        return dataModel;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public float getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(float temperature) {
-        this.temperature = temperature;
-    }
-
-    public String getIconId() {
-        return iconId;
-    }
-
-    public void setIconId(String iconId) {
-        this.iconId = iconId;
+    public void setDataModel(DataModel dataModel) {
+        this.dataModel = dataModel;
     }
 }

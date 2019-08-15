@@ -114,9 +114,7 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
 
                     if (response != null) {
                         DataModel dataModel = response.body();
-                        contactData.setCity(dataModel.getName());
-                        contactData.setTemperature(dataModel.main.getTemperature());
-                        contactData.setIconId(dataModel.weather.get(0).getIcon());
+                        contactData.setDataModel(dataModel);
 
                         runOnUiThread(new Runnable() {
                             @Override

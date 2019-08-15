@@ -20,53 +20,92 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <LinearLayout
+                android:id="@+id/infoLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_margin="8dp"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/displayName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Display Name"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/phoneNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0919 4090 212"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
             <ImageView
-                android:id="@+id/avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:padding="8dp" />
-
-            <TextView
-                android:id="@+id/displayName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/avatar"
-                android:layout_toRightOf="@id/avatar"
-                android:gravity="center"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/phoneNumber"
-                android:textColor="@color/textColorSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/displayName"
-                android:layout_marginBottom="8dp"
-                android:layout_toEndOf="@id/avatar"
-                android:layout_toRightOf="@id/avatar"
-                android:textSize="13sp" />
-
-            <ImageView
-                android:id="@+id/txtOptionDigit"
+                android:id="@+id/optionMenuImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:src="@drawable/ic_more_vert_gray_24dp"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:src="@drawable/ic_more_vert_gray_24dp" />
 
-            <TextView
-                android:id="@+id/txtWeatherStatus"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtOptionDigit"
-                android:layout_centerInParent="true" />
+                android:layout_below="@+id/infoLayout">
+
+
+                <TextView
+                    android:id="@+id/txtTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/weatherIcon"
+                    android:text="Temperature"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_toStartOf="@+id/weatherIcon"
+                    android:layout_marginEnd="5dp" />
+
+                <TextView
+                    android:id="@+id/txtCityName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:text="City Name" />
+
+                <ImageView
+                    android:id="@+id/weatherIcon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="8dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_launcher_background" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
