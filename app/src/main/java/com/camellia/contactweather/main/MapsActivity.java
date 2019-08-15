@@ -78,13 +78,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
+        LatLng location;
+
+        boolean isUpdate = getIntent().getBooleanExtra("isUpdate", false);
+        if (isUpdate) {
+            double lat = getIntent().getDoubleExtra("latitude", 32);
+            double lon = getIntent().getDoubleExtra("longitude", 53);
+            location = new LatLng(lat, lon);
+        } else {
+            location = new LatLng(32, 53);
+        }
 
         // Add a marker in Iran and move the camera
-        LatLng Iran = new LatLng(32, 53);
-        mMap.addMarker(new MarkerOptions().position(Iran).title("Marker in Iran"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Iran));
+//        mMap.addMarker(new MarkerOptions().position(location).title("Marker in Iran"));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 8f));
     }
 }

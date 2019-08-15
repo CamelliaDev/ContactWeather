@@ -3,6 +3,7 @@ package com.camellia.contactweather.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,7 +28,7 @@ import java.util.List;
 
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements OnOptionMenuItemClickListener{
+public class MainActivity extends AppCompatActivity implements OnOptionMenuItemClickListener {
 
     private FloatingActionButton floatingButton;
     private RecyclerView recyclerView;
@@ -49,11 +50,27 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
         myAdapter = new ContactAdapter(contactList, this, this);
         recyclerView.setAdapter(myAdapter);
 
-//        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
-
         floatingButton = findViewById(R.id.floatingButton);
         clickOnFloatingButton();
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    // Scroll Down
+                    if (floatingButton.isShown()) {
+                        floatingButton.hide();
+                    }
+                } else if (dy < 0) {
+                    // Scroll Up
+                    if (!floatingButton.isShown()) {
+                        floatingButton.show();
+                    }
+                }
+            }
+        });
     }
+
 
     @Override
     protected void onResume() {
@@ -148,7 +165,10 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
                         Intent intent = new Intent(context, MapsActivity.class);
                         intent.putExtra("displayName", contactData.getDisplayName());
                         intent.putExtra("phone", contactData.getPhoneNumber());
+                        intent.putExtra("longitude", contactData.getLongitude());
+                        intent.putExtra("latitude", contactData.getLatitude());
                         intent.putExtra("isUpdate", true);
+
                         context.startActivity(intent);
 
                         Toast.makeText(context, "change location", Toast.LENGTH_SHORT).show();

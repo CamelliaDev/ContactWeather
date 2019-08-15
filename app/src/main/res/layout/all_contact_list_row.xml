@@ -20,9 +20,8 @@
         android:layout_toEndOf="@id/avatar"
         android:layout_toRightOf="@id/avatar"
         android:gravity="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textColor="@color/textColorPrimary"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/phoneNumber"
@@ -32,8 +31,8 @@
         android:layout_marginBottom="8dp"
         android:layout_toEndOf="@id/avatar"
         android:layout_toRightOf="@id/avatar"
-        android:textColor="#727272"
-        android:textSize="14sp" />
+        android:textColor="@color/textColorSecondary"
+        android:textSize="13sp" />
 
     <View
         android:layout_width="match_parent"
