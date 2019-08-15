@@ -96,6 +96,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Add a marker in Iran and move the camera
 //        mMap.addMarker(new MarkerOptions().position(location).title("Marker in Iran"));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 8f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 6f));
     }
 }

@@ -21,8 +21,9 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
     public TextView txtTemperature;
     public TextView txtLocation;
     public ImageView weatherIcon;
-    public TextView humidity;
+    public TextView humidityPercentage;
     public ImageView humidityIcon;
+
 
     public ContactViewHolder(View itemView) {
         super(itemView);
@@ -33,14 +34,14 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
         txtTemperature = itemView.findViewById(R.id.txtTemperature);
         txtLocation = itemView.findViewById(R.id.txtCityName);
         weatherIcon = itemView.findViewById(R.id.weatherIcon);
-        humidity = itemView.findViewById(R.id.humidityTextView);
+        humidityPercentage = itemView.findViewById(R.id.humidityPercentage);
         humidityIcon = itemView.findViewById(R.id.humidityIcon);
     }
 
     public void bind(final ContactData item, final OnOptionMenuItemClickListener listener, final int position) {
         contactName.setText(item.getDisplayName());
         contactPhoneNumber.setText(item.getPhoneNumber());
-//        avatar.setImageResource(R.drawable.ic_launcher_background);
+
         Glide.with(avatar)
                 .load(R.drawable.ic_launcher_background)
                 .apply(RequestOptions.circleCropTransform())
@@ -51,7 +52,7 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
                 .into(humidityIcon);
 
         if (item.getDataModel() != null) {
-            humidity.setText( item.getDataModel().main.getHumidity()+"");
+            humidityPercentage.setText( "%" + (int)item.getDataModel().main.getHumidity());
             txtLocation.setText(item.getDataModel().getName());
             txtTemperature.setText(String.format("%s°C", String.format(Locale.getDefault(), "%.1f", item.getDataModel().main.getTemperature() - 273.5)));
 

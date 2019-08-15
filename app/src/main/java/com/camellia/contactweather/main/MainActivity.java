@@ -1,10 +1,12 @@
 package com.camellia.contactweather.main;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -13,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.camellia.contactweather.R;
@@ -149,14 +150,27 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                DataBaseHelper db = new DataBaseHelper(context);
                 switch (menuItem.getItemId()) {
 
                     case R.id.menu_item_delete:
-                        db.deleteContact(contactData.getPhoneNumber());
-                        contactList.remove(position);
-                        myAdapter.notifyDataSetChanged();
-                        Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setMessage("Are you sure to delete \"" + contactData.getDisplayName() + "\"?");
+
+                        builder.setNegativeButton("Cancel", null);
+
+                        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                DataBaseHelper db = new DataBaseHelper(context);
+                                db.deleteContact(contactData.getPhoneNumber());
+                                contactList.remove(position);
+                                myAdapter.notifyDataSetChanged();
+                                Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        builder.create().show();
                         break;
 
                     case R.id.menu_item_changeLocation:

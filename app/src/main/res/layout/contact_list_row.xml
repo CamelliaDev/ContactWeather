@@ -29,9 +29,9 @@
 
                 <ImageView
                     android:id="@+id/avatar"
-                    android:layout_margin="8dp"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
+                    android:layout_margin="8dp"
                     android:src="@mipmap/ic_launcher" />
 
                 <LinearLayout
@@ -73,56 +73,67 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/infoLayout">
 
-
                 <TextView
                     android:id="@+id/txtTemperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/weatherIcon"
-                    android:text="Temperature"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_toStartOf="@+id/weatherIcon"
                     android:layout_marginEnd="5dp"
-                    android:textStyle="bold"/>
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="16dp"
+                    android:textSize="15sp"
+                    android:layout_toLeftOf="@+id/weatherIcon"
+                    android:layout_toStartOf="@+id/weatherIcon"
+                    android:text="Temperature"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtCityName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/weatherIcon"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
-                    android:text="City Name"
-                    android:layout_marginEnd="5dp" />
+                    android:layout_marginTop="35dp"
+                    android:layout_toLeftOf="@id/weatherIcon"
+                    android:text="City Name" />
 
                 <ImageView
                     android:id="@id/weatherIcon"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:layout_margin="8dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_margin="8dp"
                     android:src="@drawable/ic_launcher_background" />
 
                 <ImageView
                     android:id="@+id/humidityIcon"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_launcher_background"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="8dp"/>
-
-                <TextView
                     android:layout_centerVertical="true"
-                    android:id="@+id/humidityTextView"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/ic_launcher_background" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Humidity"
                     android:layout_toRightOf="@+id/humidityIcon"
-                    android:layout_marginLeft="6dp"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="6dp">
 
-                    />
+                    <TextView
+                        android:id="@+id/humidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Humidity" />
+
+                    <TextView
+                        android:id="@+id/humidityPercentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HumidityPercentage" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
