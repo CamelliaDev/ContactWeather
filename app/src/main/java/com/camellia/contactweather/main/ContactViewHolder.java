@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.camellia.contactweather.R;
 
 import java.util.Locale;
@@ -20,6 +21,8 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
     public TextView txtTemperature;
     public TextView txtLocation;
     public ImageView weatherIcon;
+    public TextView humidity;
+    public ImageView humidityIcon;
 
     public ContactViewHolder(View itemView) {
         super(itemView);
@@ -30,18 +33,29 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
         txtTemperature = itemView.findViewById(R.id.txtTemperature);
         txtLocation = itemView.findViewById(R.id.txtCityName);
         weatherIcon = itemView.findViewById(R.id.weatherIcon);
+        humidity = itemView.findViewById(R.id.humidityTextView);
+        humidityIcon = itemView.findViewById(R.id.humidityIcon);
     }
 
     public void bind(final ContactData item, final OnOptionMenuItemClickListener listener, final int position) {
         contactName.setText(item.getDisplayName());
         contactPhoneNumber.setText(item.getPhoneNumber());
-        avatar.setImageResource(R.drawable.ic_launcher_background);
+//        avatar.setImageResource(R.drawable.ic_launcher_background);
+        Glide.with(avatar)
+                .load(R.drawable.ic_launcher_background)
+                .apply(RequestOptions.circleCropTransform())
+                .into(avatar);
 
-        if(item.getDataModel()!= null){
-//            txtLocation.setText(String.format("%s   %s°C", item.getDataModel().getName(), String.format(Locale.getDefault(), "%.1f", item.getDataModel().main.getTemperature() - 273.5)));
+        Glide.with(humidityIcon)
+                .load(R.drawable.humidity_icon)
+                .into(humidityIcon);
+
+        if (item.getDataModel() != null) {
+            humidity.setText( item.getDataModel().main.getHumidity()+"");
             txtLocation.setText(item.getDataModel().getName());
             txtTemperature.setText(String.format("%s°C", String.format(Locale.getDefault(), "%.1f", item.getDataModel().main.getTemperature() - 273.5)));
 
+            //weather icon
             String iconCode = item.getDataModel().weather.get(0).getIcon();
             String iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
             Glide.with(weatherIcon)
