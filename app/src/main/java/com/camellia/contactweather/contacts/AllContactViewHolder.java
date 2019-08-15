@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.camellia.contactweather.R;
 import com.camellia.contactweather.main.OnItemClickListener;
 
@@ -18,7 +20,12 @@ public class AllContactViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         contactName = itemView.findViewById(R.id.displayName);
         contactPhoneNumber = itemView.findViewById(R.id.phoneNumber);
-//        avatar = itemView.findViewById(R.id.avatar);
+        avatar = itemView.findViewById(R.id.avatar);
+
+        Glide.with(avatar)
+                .load(R.drawable.ic_launcher_background)
+                .apply(RequestOptions.circleCropTransform())
+                .into(avatar);
     }
 
     public void bind(AllContactData item, final OnItemClickListener listener, final int position) {
