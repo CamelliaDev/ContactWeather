@@ -55,12 +55,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent intent = getIntent();
                 String contactName = intent.getStringExtra("displayName"); // will return "FirstKeyValue"
                 String contactPhone = intent.getStringExtra("phone");
+                String avatar = intent.getStringExtra("avatar");
                 boolean isUpdate = intent.getBooleanExtra("isUpdate", false);
 
                 if (isUpdate) {
-                    db.updateContactLocation(contactPhone, target.latitude, target.longitude);
+                    db.updateContactLocation(contactPhone, target.latitude, target.longitude, avatar);
                 } else {
-                    db.addContact(contactName, contactPhone, target.latitude, target.longitude);
+                    db.addContact(contactName, contactPhone, target.latitude, target.longitude, avatar);
                 }
 
                 finish();

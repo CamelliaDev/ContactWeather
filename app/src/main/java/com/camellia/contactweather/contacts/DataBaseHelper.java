@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 
 import com.camellia.contactweather.main.ContactData;
 
@@ -13,13 +14,14 @@ import java.util.ArrayList;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "contactsDataBase";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     private static final String CONTACT_TABLE = "contactsTable";
     private static final String CONTACT_NAME = "name";
     private static final String CONTACT_PHONE = "phone";
     private static final String LATITUDE = "latitude";
     private static final String LONGITUDE = "longitude";
+    private static final String AVATAR = "avatar";
 
     public DataBaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -32,28 +34,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "name VARCHAR, " +
                 "phone VARCHAR not null unique, " +
                 "latitude DOUBLE, " +
-                "longitude DOUBLE " +
+                "longitude DOUBLE, " +
+                "avatar VARCHAR " +
                 ")";
         sqLiteDatabase.execSQL(sqlContacts);
     }
 
-    public void addContact(String name, String phone, double latitude, double longitude) {
+    public void addContact(String name, String phone, double latitude, double longitude, String avatar) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(CONTACT_NAME, name);
         contentValues.put(CONTACT_PHONE, phone);
         contentValues.put(LATITUDE, latitude);
         contentValues.put(LONGITUDE, longitude);
+        contentValues.put(AVATAR, avatar);
 
-        db.insert(CONTACT_TABLE, null, contentValues);
+        db.insertWithOnConflict(CONTACT_TABLE, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
     }
 
-    public void updateContactLocation(String phone, double latitude, double longitude) {
+    public void updateContactLocation(String phone, double latitude, double longitude, String avatar) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(LATITUDE, latitude);
         contentValues.put(LONGITUDE, longitude);
+        contentValues.put(AVATAR, avatar);
 
         db.update(CONTACT_TABLE, contentValues, CONTACT_PHONE + "=?", new String[]{phone});
         db.close();
@@ -77,11 +82,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String phone = cursor.getString(cursor.getColumnIndex(CONTACT_PHONE));
                 double latitude = cursor.getDouble(cursor.getColumnIndex(LATITUDE));
                 double longitude = cursor.getDouble(cursor.getColumnIndex(LONGITUDE));
+                String avatar = cursor.getString(cursor.getColumnIndex(AVATAR));
 
                 contactData.setDisplayName(name);
                 contactData.setPhoneNumber(phone);
                 contactData.setLatitude(latitude);
                 contactData.setLongitude(longitude);
+                contactData.setAvatar(Uri.parse(avatar));
                 list.add(contactData);
             }
         }

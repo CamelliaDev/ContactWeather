@@ -1,5 +1,7 @@
 package com.camellia.contactweather.main;
 
+import android.net.Uri;
+
 import com.camellia.contactweather.webservice.model.DataModel;
 
 public class ContactData {
@@ -8,7 +10,7 @@ public class ContactData {
     private double longitude;
     private String displayName;
     private String phoneNumber;
-    private int avatar;
+    private Uri avatar;
 
     private DataModel dataModel;
 
@@ -44,11 +46,11 @@ public class ContactData {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getAvatar() {
+    public Uri getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(int avatar) {
+    public void setAvatar(Uri avatar) {
         this.avatar = avatar;
     }
 

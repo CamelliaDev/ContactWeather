@@ -18,7 +18,8 @@
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_toEndOf="@+id/avatar">
 
         <TextView
             android:id="@+id/displayName"
@@ -32,7 +33,7 @@
             android:id="@+id/phoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0919 4090 212"
+            android:text="0999 0000 222"
             android:textColor="@color/textColorSecondary"
             android:textSize="13sp" />
         <View

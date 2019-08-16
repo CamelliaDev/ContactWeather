@@ -2,9 +2,11 @@ package com.camellia.contactweather.contacts;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -140,6 +142,7 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
 
         ContentResolver contentResolver = getContentResolver();
         Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
+
         if (cursor != null && cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 AllContactData contact = null;
@@ -148,8 +151,12 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
                     String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                     String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 
+                    Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.parseLong(id));
+                    Uri photo = Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
+
                     contact = new AllContactData();
                     contact.setDisplayName(name);
+                    contact.setAvatar(photo);
 
                     Cursor phoneCursor = contentResolver.query(
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -180,13 +187,11 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
     @Override
     public void onItemClicked(int position) {
         // TODO
-//        Toast.makeText(this, "item clicked!!! \n" + allContactList.get(position).getDisplayName(), Toast.LENGTH_SHORT).show();
-//        db.addContact(allContactList.get(position).getDisplayName(), allContactList.get(position).getPhoneNumber());
 
-//        Intent intent = new Intent(this, Location.class);
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("displayName", allContactList.get(position).getDisplayName());
         intent.putExtra("phone", allContactList.get(position).getPhoneNumber());
+        intent.putExtra("avatar",allContactList.get(position).getAvatar().toString());
         intent.putExtra("isUpdate", false);
 
         startActivity(intent);

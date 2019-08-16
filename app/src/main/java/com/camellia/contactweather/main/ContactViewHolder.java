@@ -43,7 +43,8 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
         contactPhoneNumber.setText(item.getPhoneNumber());
 
         Glide.with(avatar)
-                .load(R.drawable.ic_launcher_background)
+                .load(item.getAvatar())
+                .placeholder(R.drawable.ic_default_contact)
                 .apply(RequestOptions.circleCropTransform())
                 .into(avatar);
 

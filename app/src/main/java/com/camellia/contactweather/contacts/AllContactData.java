@@ -1,12 +1,14 @@
 package com.camellia.contactweather.contacts;
 
+import android.net.Uri;
+
 public class AllContactData {
 
     private double latitude;
     private double longitude;
     private String displayName;
     private String phoneNumber;
-    private int avatar;
+    private Uri avatar;
 
     public double getLongitude() {
         return longitude;
@@ -40,11 +42,11 @@ public class AllContactData {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getAvatar() {
+    public Uri getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(int avatar) {
+    public void setAvatar(Uri avatar) {
         this.avatar = avatar;
     }
 }

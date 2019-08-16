@@ -21,11 +21,6 @@ public class AllContactViewHolder extends RecyclerView.ViewHolder {
         contactName = itemView.findViewById(R.id.displayName);
         contactPhoneNumber = itemView.findViewById(R.id.phoneNumber);
         avatar = itemView.findViewById(R.id.avatar);
-
-        Glide.with(avatar)
-                .load(R.drawable.ic_launcher_background)
-                .apply(RequestOptions.circleCropTransform())
-                .into(avatar);
     }
 
     public void bind(AllContactData item, final OnItemClickListener listener, final int position) {
@@ -38,6 +33,12 @@ public class AllContactViewHolder extends RecyclerView.ViewHolder {
                 listener.onItemClicked(position);
             }
         });
+
+        Glide.with(avatar)
+                .load(item.getAvatar())
+                .placeholder(R.drawable.ic_default_contact)
+                .apply(RequestOptions.circleCropTransform())
+                .into(avatar);
 
     }
 
