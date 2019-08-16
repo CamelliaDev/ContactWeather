@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
                                 DataBaseHelper.getInstance(getApplicationContext()).deleteContact(contactData.getPhoneNumber());
                                 contactList.remove(position);
                                 myAdapter.notifyDataSetChanged();
+                                floatingButton.show();
                                 Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show();
                             }
                         });
