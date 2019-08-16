@@ -33,9 +33,7 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 10;
     private RecyclerView recyclerView;
     private List<AllContactData> allContactList = new ArrayList<>();
-    DataBaseHelper db;
     private AllContactAdapter adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +54,6 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
         recyclerView.setAdapter(adapter);
 
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
-
-        db = new DataBaseHelper(this);
     }
 
     @Override

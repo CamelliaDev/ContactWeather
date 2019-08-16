@@ -93,8 +93,7 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
     }
 
     public void initContactData() {
-        DataBaseHelper db = new DataBaseHelper(this);
-        ArrayList<ContactData> list = db.readContacts();
+        ArrayList<ContactData> list = DataBaseHelper.getInstance(this).readContacts();
         contactList.clear();
         contactList.addAll(list);
         myAdapter.notifyDataSetChanged();
@@ -102,21 +101,39 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
         new Thread(new Runnable() {
             @Override
             public void run() {
+                WeatherCache.getInstance().getCacheData("");
                 for (ContactData contactData : contactList) {
-                    double latitude = contactData.getLatitude();
-                    double longitude = contactData.getLongitude();
+                    if (contactData.getCity() == null ||
+                            (contactData.getDataModel() == null && WeatherCache.getInstance().getCacheData(contactData.getCity()) == null)) {
 
-                    Response<DataModel> response = null;
-                    try {
-                        response = ApiManager.getInstance().getCurrentWeather(latitude, longitude).execute();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        double latitude = contactData.getLatitude();
+                        double longitude = contactData.getLongitude();
 
-                    if (response != null) {
-                        DataModel dataModel = response.body();
-                        contactData.setDataModel(dataModel);
+                        Response<DataModel> response = null;
+                        try {
+                            response = ApiManager.getInstance().getCurrentWeather(latitude, longitude).execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
+                        if (response != null) {
+                            DataModel dataModel = response.body();
+                            contactData.setDataModel(dataModel);
+                            contactData.setCity(dataModel.getCityName());
+
+                            DataBaseHelper.getInstance(getApplicationContext()).updateContactCity(contactData.getPhoneNumber(), dataModel.getCityName());
+
+                            WeatherCache.getInstance().putCacheData(dataModel.getCityName(), dataModel);
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    myAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
+                    } else {
+                        contactData.setDataModel(WeatherCache.getInstance().getCacheData(contactData.getCity()));
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -162,8 +179,7 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
                         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                DataBaseHelper db = new DataBaseHelper(context);
-                                db.deleteContact(contactData.getPhoneNumber());
+                                DataBaseHelper.getInstance(getApplicationContext()).deleteContact(contactData.getPhoneNumber());
                                 contactList.remove(position);
                                 myAdapter.notifyDataSetChanged();
                                 Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show();

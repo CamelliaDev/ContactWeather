@@ -38,7 +38,7 @@
 //                    String stringBuilder =
 //                            "Country: " + weatherResponse.sys.getCountry() +
 //                                    "\n" +
-//                                    "City: " + weatherResponse.getName() +
+//                                    "City: " + weatherResponse.getCityName() +
 //                                    "\n" +
 //                                    "Temperature: " + String.format(Locale.getDefault(), "%.1f", weatherResponse.main.getTemperature() - 273.5) +
 //                                    "\n" +

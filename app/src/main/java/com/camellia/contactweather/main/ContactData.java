@@ -10,9 +10,17 @@ public class ContactData {
     private double longitude;
     private String displayName;
     private String phoneNumber;
+    private String city;
     private Uri avatar;
-
     private DataModel dataModel;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public double getLongitude() {
         return longitude;

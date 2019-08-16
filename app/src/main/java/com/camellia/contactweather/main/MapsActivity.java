@@ -20,8 +20,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    DataBaseHelper db;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +32,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setSupportActionBar((Toolbar) findViewById(R.id.locationToolBar));
         setTitle("Location");
-
-        db = new DataBaseHelper(this);
 
     }
 
@@ -59,9 +55,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 boolean isUpdate = intent.getBooleanExtra("isUpdate", false);
 
                 if (isUpdate) {
-                    db.updateContactLocation(contactPhone, target.latitude, target.longitude, avatar);
+                    DataBaseHelper.getInstance(getApplicationContext()).updateContactLocation(contactPhone, target.latitude, target.longitude, avatar);
+                    DataBaseHelper.getInstance(getApplicationContext()).updateContactCity(contactPhone, null);
                 } else {
-                    db.addContact(contactName, contactPhone, target.latitude, target.longitude, avatar);
+                    DataBaseHelper.getInstance(getApplicationContext()).addContact(contactName, contactPhone, target.latitude, target.longitude, avatar);
                 }
 
                 finish();

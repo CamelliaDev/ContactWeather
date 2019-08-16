@@ -13,8 +13,10 @@ import java.util.ArrayList;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
+    private static DataBaseHelper instance;
+
     private static final String DB_NAME = "contactsDataBase";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     private static final String CONTACT_TABLE = "contactsTable";
     private static final String CONTACT_NAME = "name";
@@ -22,9 +24,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String LATITUDE = "latitude";
     private static final String LONGITUDE = "longitude";
     private static final String AVATAR = "avatar";
+    private static final String CITY = "city";
 
-    public DataBaseHelper(Context context) {
+    private DataBaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+    }
+
+    public static DataBaseHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new DataBaseHelper(context);
+        }
+        return instance;
     }
 
     @Override
@@ -35,6 +45,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "phone VARCHAR not null unique, " +
                 "latitude DOUBLE, " +
                 "longitude DOUBLE, " +
+                "city VARCHAR, " +
                 "avatar VARCHAR " +
                 ")";
         sqLiteDatabase.execSQL(sqlContacts);
@@ -50,6 +61,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(AVATAR, avatar);
 
         db.insertWithOnConflict(CONTACT_TABLE, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+        db.close();
+    }
+
+    public void updateContactCity(String phone, String city) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CITY, city);
+
+        db.update(CONTACT_TABLE, contentValues, CONTACT_PHONE + "=?", new String[]{phone});
         db.close();
     }
 
@@ -83,12 +103,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 double latitude = cursor.getDouble(cursor.getColumnIndex(LATITUDE));
                 double longitude = cursor.getDouble(cursor.getColumnIndex(LONGITUDE));
                 String avatar = cursor.getString(cursor.getColumnIndex(AVATAR));
+                String city = cursor.getString(cursor.getColumnIndex(CITY));
 
+                contactData.setCity(city);
                 contactData.setDisplayName(name);
                 contactData.setPhoneNumber(phone);
                 contactData.setLatitude(latitude);
                 contactData.setLongitude(longitude);
-                contactData.setAvatar(Uri.parse(avatar));
+                if (avatar != null) {
+                    contactData.setAvatar(Uri.parse(avatar));
+                }
                 list.add(contactData);
             }
         }

@@ -54,7 +54,7 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
 
         if (item.getDataModel() != null) {
             humidityPercentage.setText( "%" + (int)item.getDataModel().main.getHumidity());
-            txtLocation.setText(item.getDataModel().getName());
+            txtLocation.setText(item.getDataModel().getCityName());
             txtTemperature.setText(String.format("%s°C", String.format(Locale.getDefault(), "%.1f", item.getDataModel().main.getTemperature() - 273.5)));
 
             //weather icon

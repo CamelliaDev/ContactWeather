@@ -86,11 +86,11 @@ public class DataModel {
         this.id = id;
     }
 
-    public String getName() {
+    public String getCityName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setCityName(String name) {
         this.name = name;
     }
 
