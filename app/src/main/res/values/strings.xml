@@ -2,7 +2,7 @@
     <string name="app_name">Contact Weather</string>
     <string name="appName">Contact Weather</string>
     <string name="Contacts">Contacts</string>
-    <string name="menu_item">menu_item</string>
+    <string name="sync_menu_item">Sync Weather</string>
     <string name="location_menu">location_menu</string>
     <string name="title_activity_maps">Map</string>
     <string name="vertical_ellipsis">&#8942;</string>

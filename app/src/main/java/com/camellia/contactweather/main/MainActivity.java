@@ -88,16 +88,15 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(this, "sync clicked", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "sync clicked", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.sync) {
+            WeatherCache.getInstance().clearCache();
+            refreshData();
+        }
         return super.onOptionsItemSelected(item);
     }
 
-    public void initContactData() {
-        ArrayList<ContactData> list = DataBaseHelper.getInstance(this).readContacts();
-        contactList.clear();
-        contactList.addAll(list);
-        myAdapter.notifyDataSetChanged();
-
+    private void refreshData() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -143,6 +142,15 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
                 }
             }
         }).start();
+    }
+
+    public void initContactData() {
+        ArrayList<ContactData> list = DataBaseHelper.getInstance(this).readContacts();
+        contactList.clear();
+        contactList.addAll(list);
+        myAdapter.notifyDataSetChanged();
+
+        refreshData();
     }
 
     public void clickOnFloatingButton() {
