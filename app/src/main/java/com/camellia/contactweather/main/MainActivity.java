@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
         new Thread(new Runnable() {
             @Override
             public void run() {
-                WeatherCache.getInstance().getCacheData("");
                 for (ContactData contactData : contactList) {
                     if (contactData.getCity() == null ||
                             (contactData.getDataModel() == null && WeatherCache.getInstance().getCacheData(contactData.getCity()) == null)) {
