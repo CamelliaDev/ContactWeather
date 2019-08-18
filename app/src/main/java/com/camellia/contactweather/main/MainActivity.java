@@ -116,19 +116,21 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
 
                         if (response != null) {
                             DataModel dataModel = response.body();
-                            contactData.setDataModel(dataModel);
-                            contactData.setCity(dataModel.getCityName());
+                            if (dataModel != null) {
+                                contactData.setDataModel(dataModel);
+                                contactData.setCity(dataModel.getCityName());
 
-                            DataBaseHelper.getInstance(getApplicationContext()).updateContactCity(contactData.getPhoneNumber(), dataModel.getCityName());
+                                DataBaseHelper.getInstance(getApplicationContext()).updateContactCity(contactData.getPhoneNumber(), dataModel.getCityName());
 
-                            WeatherCache.getInstance().putCacheData(dataModel.getCityName(), dataModel);
+                                WeatherCache.getInstance().putCacheData(dataModel.getCityName(), dataModel);
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    myAdapter.notifyDataSetChanged();
-                                }
-                            });
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        myAdapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
                         }
                     } else {
                         contactData.setDataModel(WeatherCache.getInstance().getCacheData(contactData.getCity()));

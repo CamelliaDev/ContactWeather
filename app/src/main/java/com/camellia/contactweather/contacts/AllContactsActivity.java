@@ -79,11 +79,28 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_toolbar_all_contact, menu);
 
+        //search view
         MenuItem searchMenuItem = menu.findItem(R.id.menu_item_search);
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setQueryHint("Type name");
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         assert searchManager != null;
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        //search function
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                adapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
+                return false;
+            }
+        });
 
         return true;
     }
@@ -193,11 +210,10 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
     @Override
     public void onItemClicked(int position) {
         // TODO
-
         Intent intent = new Intent(this, MapsActivity.class);
-        intent.putExtra("displayName", allContactList.get(position).getDisplayName());
-        intent.putExtra("phone", allContactList.get(position).getPhoneNumber());
-        intent.putExtra("avatar", allContactList.get(position).getAvatar().toString());
+        intent.putExtra("displayName", adapter.getContactListFiltered().get(position).getDisplayName());
+        intent.putExtra("phone", adapter.getContactListFiltered().get(position).getPhoneNumber());
+        intent.putExtra("avatar", adapter.getContactListFiltered().get(position).getAvatar().toString());
         intent.putExtra("isUpdate", false);
 
         startActivity(intent);
