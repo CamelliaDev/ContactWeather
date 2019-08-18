@@ -1,6 +1,7 @@
 package com.camellia.contactweather.contacts;
 
 import android.Manifest;
+import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,7 +65,8 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
                 onBackPressed();
                 break;
             case R.id.menu_item_search:
-                Toast.makeText(this, "search clicked", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(this, "search", Toast.LENGTH_SHORT).show();
                 return super.onOptionsItemSelected(item);
             default:
                 return false;
@@ -75,6 +78,13 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_toolbar_all_contact, menu);
+
+        MenuItem searchMenuItem = menu.findItem(R.id.menu_item_search);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        assert searchManager != null;
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
         return true;
     }
 
@@ -187,7 +197,7 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("displayName", allContactList.get(position).getDisplayName());
         intent.putExtra("phone", allContactList.get(position).getPhoneNumber());
-        intent.putExtra("avatar",allContactList.get(position).getAvatar().toString());
+        intent.putExtra("avatar", allContactList.get(position).getAvatar().toString());
         intent.putExtra("isUpdate", false);
 
         startActivity(intent);
