@@ -85,3 +85,4 @@ public class AllContactAdapter extends RecyclerView.Adapter<AllContactViewHolder
         return contactListFiltered;
     }
 }
+

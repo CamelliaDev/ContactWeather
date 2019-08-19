@@ -104,7 +104,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_margin="8dp"
-                    android:src="@drawable/ic_launcher_background" />
+                    android:src="@drawable/background_shape" />
 
                 <ImageView
                     android:id="@+id/humidityIcon"

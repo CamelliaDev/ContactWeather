@@ -7,6 +7,7 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -20,6 +21,8 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.camellia.contactweather.R;
@@ -36,11 +39,14 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
     private RecyclerView recyclerView;
     private List<AllContactData> allContactList = new ArrayList<>();
     private AllContactAdapter adapter;
+    private TextView emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_contacts);
+
+        emptyView = findViewById(R.id.emptyStateSearch);
 
         setSupportActionBar((Toolbar) findViewById(R.id.myToolBar));
         setTitle("Contacts");
@@ -65,7 +71,6 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
                 onBackPressed();
                 break;
             case R.id.menu_item_search:
-
                 Toast.makeText(this, "search", Toast.LENGTH_SHORT).show();
                 return super.onOptionsItemSelected(item);
             default:
@@ -98,11 +103,24 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
             @Override
             public boolean onQueryTextChange(String s) {
                 adapter.getFilter().filter(s);
+                showEmptyStateIfAdapterIsEmpty();
                 return false;
             }
         });
 
         return true;
+    }
+
+    private void showEmptyStateIfAdapterIsEmpty() {
+        if (adapter.getItemCount() <= 0) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+
     }
 
     private void managePermission() {
