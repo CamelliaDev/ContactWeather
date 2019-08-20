@@ -21,12 +21,14 @@ public class AllContactAdapter extends RecyclerView.Adapter<AllContactViewHolder
     private List<AllContactData> contactListFiltered;
     private Context mContext;
     private final OnItemClickListener listener;
+    private final EmptyStateListener emptyStateListener;
 
-    public AllContactAdapter(List<AllContactData> allContactList, Context mContext, OnItemClickListener listener) {
+    public AllContactAdapter(List<AllContactData> allContactList, Context mContext, OnItemClickListener listener, EmptyStateListener emptyStateListener) {
         this.allContactList = allContactList;
         this.mContext = mContext;
         this.listener = listener;
         this.contactListFiltered = allContactList;
+        this.emptyStateListener = emptyStateListener;
     }
 
     @NonNull
@@ -77,6 +79,7 @@ public class AllContactAdapter extends RecyclerView.Adapter<AllContactViewHolder
                 //noinspection unchecked
                 contactListFiltered = (List<AllContactData>) filterResults.values;
                 notifyDataSetChanged();
+                emptyStateListener.onShowEmptyState(getItemCount() == 0);
             }
         };
     }

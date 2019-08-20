@@ -7,7 +7,6 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -33,7 +32,7 @@ import com.camellia.contactweather.main.SimpleDividerItemDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllContactsActivity extends AppCompatActivity implements OnItemClickListener {
+public class AllContactsActivity extends AppCompatActivity implements OnItemClickListener, EmptyStateListener {
 
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 10;
     private RecyclerView recyclerView;
@@ -57,7 +56,7 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
         managePermission();
 
         recyclerView = findViewById(R.id.myRecyclerView);
-        adapter = new AllContactAdapter(allContactList, getApplicationContext(), this);
+        adapter = new AllContactAdapter(allContactList, getApplicationContext(), this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
 
@@ -96,14 +95,13 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                adapter.getFilter().filter(s);
+//                adapter.getFilter().filter(s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
                 adapter.getFilter().filter(s);
-                showEmptyStateIfAdapterIsEmpty();
                 return false;
             }
         });
@@ -111,17 +109,11 @@ public class AllContactsActivity extends AppCompatActivity implements OnItemClic
         return true;
     }
 
-    private void showEmptyStateIfAdapterIsEmpty() {
-        if (adapter.getItemCount() <= 0) {
-            recyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-        }
-
+    @Override
+    public void onShowEmptyState(boolean show) {
+        emptyView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
+
 
     private void managePermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
