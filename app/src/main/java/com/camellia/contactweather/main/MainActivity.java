@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.camellia.contactweather.R;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter myAdapter;
     private List<ContactData> contactList = new ArrayList<>();
+    private TextView emptyText;
+    private TextView emptyTextSub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +48,16 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
         setSupportActionBar((Toolbar) findViewById(R.id.myToolBar));
         setTitle("Contact Weather");
 
+        emptyText = findViewById(R.id.emptyText);
+        emptyTextSub = findViewById(R.id.emptyTextSub);
         recyclerView = findViewById(R.id.myRecyclerView);
+        floatingButton = findViewById(R.id.floatingButton);
+
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         myAdapter = new ContactAdapter(contactList, this, this);
         recyclerView.setAdapter(myAdapter);
 
-        floatingButton = findViewById(R.id.floatingButton);
         clickOnFloatingButton();
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -72,6 +78,16 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
         });
     }
 
+    public void showEmptyState() {
+
+        if (myAdapter.getItemCount() == 0) {
+            emptyText.setVisibility(View.VISIBLE);
+            emptyTextSub.setVisibility(View.VISIBLE);
+        } else {
+            emptyText.setVisibility(View.GONE);
+            emptyTextSub.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -128,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
                                     @Override
                                     public void run() {
                                         myAdapter.notifyDataSetChanged();
+                                        showEmptyState();
                                     }
                                 });
                             }
@@ -138,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
                             @Override
                             public void run() {
                                 myAdapter.notifyDataSetChanged();
+                                showEmptyState();
                             }
                         });
                     }
@@ -151,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
         contactList.clear();
         contactList.addAll(list);
         myAdapter.notifyDataSetChanged();
+        showEmptyState();
 
         refreshData();
     }
@@ -191,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements OnOptionMenuItemC
                                 DataBaseHelper.getInstance(getApplicationContext()).deleteContact(contactData.getPhoneNumber());
                                 contactList.remove(position);
                                 myAdapter.notifyDataSetChanged();
+                                showEmptyState();
                                 floatingButton.show();
                                 Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show();
                             }

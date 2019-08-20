@@ -18,12 +18,12 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/myToolBar"
         android:clickable="true"
+        android:clipToPadding="false"
         android:focusable="true"
         android:longClickable="true"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
+        android:paddingBottom="6dp"
         android:paddingTop="2dp"
-        android:paddingBottom="6dp"/>
+        android:scrollbars="vertical" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingButton"
@@ -35,5 +35,27 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_person_add_black_24dp"
         app:backgroundTint="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/emptyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/no_contact_to_show"
+        android:textColor="@color/textColorPrimary"
+        android:visibility="invisible"
+        android:alpha="0.5"/>
+
+    <TextView
+        android:id="@+id/emptyTextSub"
+        android:visibility="invisible"
+        android:layout_marginTop="4dp"
+        android:layout_centerInParent="true"
+        android:alpha="0.5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/emptyText"
+        android:text="@string/emptyTextSub"
+        android:textColor="@color/textColorSecondary" />
 
 </RelativeLayout>

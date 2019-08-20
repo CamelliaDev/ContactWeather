@@ -10,4 +10,6 @@
     <string name="delete">Delete</string>
     <string name="search">Search</string>
     <string name="emptyStateSearch">No Results</string>
+    <string name="no_contact_to_show">No contact to show</string>
+    <string name="emptyTextSub">You can add contacts from below button</string>
 </resources>
